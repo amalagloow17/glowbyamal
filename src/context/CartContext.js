@@ -12,7 +12,6 @@ export function CartProvider({ children }) {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // ✅ addToCart بلا packs
   const addToCart = (product, quantity = 1) => {
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
@@ -48,7 +47,6 @@ export function CartProvider({ children }) {
     });
   };
 
-  // ✅ updateQuantity بلا packs
   const updateQuantity = (id, quantity) => {
     setCartItems((prev) =>
       prev.map((item) => {
@@ -66,7 +64,6 @@ export function CartProvider({ children }) {
     );
   };
 
-  // ✅ remove بلا packs
   const removeFromCart = (id) => {
     setCartItems((prev) =>
       prev.filter((item) => item.id !== id)
@@ -85,7 +82,7 @@ export function CartProvider({ children }) {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }, [cartItems]);
 
-  const shipping = cartItems.length ? 35 : 0;
+  const shipping = cartItems.length ? 40 : 0;
   const total = subtotal + shipping;
 
   return (
