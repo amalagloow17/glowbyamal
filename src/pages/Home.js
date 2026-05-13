@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import ProductCard from '../components/ProductCard';
-import logo from '../assets/amal-gloow-logo.jpeg';
+import heroImage from '../assets/hero-section.jpeg';
 
 function Home() {
   const [featured, setFeatured] = useState([]);
@@ -31,32 +31,8 @@ function Home() {
 
   return (
     <>
-      <section className="hero-section luxury-hero">
-        <div className="container">
-          <div className="hero-single-block">
-            <img src={logo} alt="Amal Gloow" className="hero-bg-logo" />
-
-            <div className="hero-content-overlay">
-              <p className="hero-eyebrow">Natural & Hammam Rituals</p>
-
-              <h1 className="hero-title-clean">Glow . Care . Confidence</h1>
-
-              <p className="hero-description-clean">
-                Découvrez des packs beauté, des soins naturels et une expérience
-                féminine, douce et raffinée inspirée par les rituels de bien-être.
-              </p>
-
-              <div className="hero-buttons">
-                <Link to="/products" className="primary-btn">
-                  Découvrir les produits
-                </Link>
-                <Link to="/cart" className="secondary-btn">
-                  Voir panier
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="home-hero-only">
+        <img src={heroImage} alt="Gloow by Amal" />
       </section>
 
       <section className="section">
@@ -64,7 +40,7 @@ function Home() {
           <div className="section-head">
             <div>
               <p className="eyebrow">Sélection</p>
-              <h2>Milleurs Produits✨</h2>
+              <h2>Meilleurs Produits</h2>
             </div>
 
             <Link to="/products" className="text-link">
@@ -75,7 +51,7 @@ function Home() {
           {loading ? (
             <p>Chargement...</p>
           ) : featured.length ? (
-            <div className="products-grid">
+            <div className="products-grid sahar-products-grid">
               {featured.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

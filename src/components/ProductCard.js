@@ -2,27 +2,35 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function ProductCard({ product }) {
+  const price = Number(product.price) || 0;
+  const oldPrice = Number(product.oldPrice) || 0;
+  const hasPromo = oldPrice > price;
+  const discount = hasPromo ? Math.round(((oldPrice - price) / oldPrice) * 100) : null;
+
   return (
-    <div className="product-card">
-      <Link to={`/products/${product.id}`} className="product-image-wrap">
+    <div className="product-card sahar-product-card">
+      <Link to={`/products/${product.id}`} className="sahar-product-image-link">
+        {hasPromo && <span className="sahar-discount-badge">-{discount}%</span>}
+
         <img
-          src={product.images?.[0] || 'https://via.placeholder.com/500x500?text=Glow+AML'}
+          src={product.images?.[0] || 'https://via.placeholder.com/700x900?text=Glow+AML'}
           alt={product.title}
-          className="product-image"
+          className="sahar-product-image"
         />
       </Link>
 
-      <div className="product-info">
+      <div className="sahar-product-info">
+        <p className="sahar-product-brand">Gloow by Amal</p>
         <h3>{product.title}</h3>
-        <p className="product-price">{Number(product.price).toFixed(2)} DH</p>
+
+        <div className="sahar-price-row">
+          <strong>{price.toFixed(2)} DH</strong>
+          {hasPromo && <span>{oldPrice.toFixed(2)} DH</span>}
+        </div>
 
         <p className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-stock'}`}>
           {product.stock > 0 ? 'En stock' : 'Rupture de stock'}
         </p>
-
-        <Link to={`/products/${product.id}`} className="primary-btn full-btn">
-          Voir détails
-        </Link>
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { db } from '../firebase';
-import ImageSlider from '../components/ImageSlider';
 import { useCart } from '../context/CartContext';
 
 function ProductDetails() {
@@ -11,6 +10,7 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [imageIndex, setImageIndex] = useState(0);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -20,12 +20,10 @@ function ProductDetails() {
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
-          const data = { id: snap.id, ...snap.data() };
-          setProduct(data);
+          setProduct({ id: snap.id, ...snap.data() });
         }
       } catch (error) {
         console.error('Erreur chargement produit:', error);
-
         await Swal.fire({
           icon: 'error',
           title: 'Erreur',
@@ -44,29 +42,15 @@ function ProductDetails() {
   if (!product) return <div className="page-center">Produit introuvable.</div>;
 
   const safeStock = Number(product.stock) || 0;
+  const images = product.images || [];
+  const hasMultipleImages = images.length > 1;
 
-  const handleQuantityChange = (e) => {
-    const value = Number(e.target.value);
+  const goPrev = () => {
+    setImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
 
-    if (!value || value < 1) {
-      setQuantity(1);
-      return;
-    }
-
-    if (value > safeStock) {
-      setQuantity(safeStock);
-
-      Swal.fire({
-        icon: 'warning',
-        title: 'Stock limité',
-        text: `La quantité maximum disponible est ${safeStock}.`,
-        confirmButtonColor: '#b76e79'
-      });
-
-      return;
-    }
-
-    setQuantity(value);
+  const goNext = () => {
+    setImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const handleAdd = async () => {
@@ -81,8 +65,6 @@ function ProductDetails() {
     }
 
     const safeQty = Math.min(Math.max(1, quantity), safeStock);
-
-    // 🔥 بلا packs
     addToCart(product, safeQty);
 
     await Swal.fire({
@@ -96,17 +78,50 @@ function ProductDetails() {
   };
 
   return (
-    <section className="section">
-      <div className="container details-grid">
-        <ImageSlider images={product.images || []} />
+    <section className="section product-details-section">
+      <div className="container details-grid product-details-grid">
+        <div className="product-details-gallery">
+          <div className="product-details-image-box">
+            {hasMultipleImages && (
+              <button type="button" className="details-arrow details-arrow-left" onClick={goPrev}>
+                ‹
+              </button>
+            )}
 
-        <div className="details-box">
+            <img
+              src={images[imageIndex] || 'https://via.placeholder.com/900x1100?text=Glow+by+Amal'}
+              alt={product.title}
+              className="product-details-main-image"
+            />
+
+            {hasMultipleImages && (
+              <button type="button" className="details-arrow details-arrow-right" onClick={goNext}>
+                ›
+              </button>
+            )}
+          </div>
+
+          {hasMultipleImages && (
+            <div className="product-details-thumbs">
+              {images.map((img, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  className={`product-details-thumb ${index === imageIndex ? 'active' : ''}`}
+                  onClick={() => setImageIndex(index)}
+                >
+                  <img src={img} alt={`Image ${index + 1}`} />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="details-box product-details-info">
           <p className="eyebrow">Produit</p>
           <h1>{product.title}</h1>
 
-          <p className="details-price">
-            {Number(product.price).toFixed(2)} DH
-          </p>
+          <p className="details-price">{Number(product.price).toFixed(2)} DH</p>
 
           <p className={`stock-badge ${safeStock > 0 ? 'in-stock' : 'out-stock'}`}>
             {safeStock > 0 ? `En stock (${safeStock})` : 'Rupture de stock'}
@@ -116,27 +131,29 @@ function ProductDetails() {
 
           <div className="form-group">
             <label>Quantité</label>
+
             <div className="qty-control">
-  <button
-    type="button"
-    className="qty-btn"
-    onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-    disabled={safeStock < 1}
-  >
-    -
-  </button>
+              <button
+                type="button"
+                className="qty-btn"
+                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                disabled={safeStock < 1}
+              >
+                -
+              </button>
 
-  <span className="qty-value">{quantity}</span>
+              <span className="qty-value">{quantity}</span>
 
-  <button
-    type="button"
-    className="qty-btn"
-    onClick={() => setQuantity((prev) => Math.min(safeStock, prev + 1))}
-    disabled={safeStock < 1}
-  >
-    +
-  </button>
-</div>
+              <button
+                type="button"
+                className="qty-btn"
+                onClick={() => setQuantity((prev) => Math.min(safeStock, prev + 1))}
+                disabled={safeStock < 1}
+              >
+                +
+              </button>
+            </div>
+
             {safeStock > 0 && (
               <small className="stock-note">
                 Quantité maximum disponible : {safeStock}
@@ -144,11 +161,7 @@ function ProductDetails() {
             )}
           </div>
 
-          <button
-            className="primary-btn"
-            onClick={handleAdd}
-            disabled={safeStock < 1}
-          >
+          <button className="primary-btn" onClick={handleAdd} disabled={safeStock < 1}>
             Ajouter au panier
           </button>
         </div>

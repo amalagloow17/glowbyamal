@@ -1,77 +1,99 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Mail,
+  Sparkles,
+  Truck,
+  ShieldCheck,
+  Heart,
+  ShoppingBag,
+  ArrowUpRight,
+  Camera
+} from 'lucide-react';
 
 function Footer() {
   return (
-    <footer className="lux-footer">
-      <div className="footer-overlay"></div>
+    <footer className="lux-footer pro-footer">
+      <div className="footer-glow footer-glow-one"></div>
+      <div className="footer-glow footer-glow-two"></div>
+
+      <div className="footer-marquee-line">
+        <div>
+          <span>Gloow by Amal</span>
+          <span>Natural beauty</span>
+          <span>Hammam rituals</span>
+          <span>Livraison partout au Maroc</span>
+          <span>Glow . Care . Confidence</span>
+          <span>Gloow by Amal</span>
+          <span>Natural beauty</span>
+        </div>
+      </div>
 
       <div className="container footer-content">
-        {/* TOP */}
-        <div className="footer-top">
-          
-          {/* BRAND */}
+        <div className="footer-premium-top">
           <div className="footer-brand-block">
             <p className="footer-eyebrow">Natural beauty & glow care</p>
+
             <h2 className="footer-title">Gloow by Amal</h2>
+
             <p className="footer-text">
-              Découvrez un univers de soins doux, féminins et raffinés, inspiré
-              par la beauté naturelle, les rituels de bien-être et l’élégance.
+              Un univers doux, féminin et raffiné autour des soins naturels,
+              des rituels hammam et du glow care.
             </p>
+
+            <div className="footer-badges">
+              <span><Truck size={16} /> Livraison Maroc</span>
+              <span><ShieldCheck size={16} /> Produits sélectionnés</span>
+              <span><Heart size={16} /> Care féminin</span>
+            </div>
           </div>
 
-          {/* CONTACT */}
-          <div className="footer-contact-card">
-            <div className="footer-contact-title">
-              <span>Contact & Informations</span>
-            </div>
+          <div className="footer-column">
+            <h3>Boutique</h3>
+            <Link to="/">Accueil</Link>
+            <Link to="/products">Produits</Link>
+            <Link to="/avis">Avis clientes</Link>
+            <Link to="/about">À propos</Link>
+          </div>
 
-            {/* Instagram */}
+          <div className="footer-column">
+            <h3>Expérience</h3>
+            <span><Sparkles size={15} /> Glow rituals</span>
+            <span><ShoppingBag size={15} /> Commande simple</span>
+            <span><Truck size={15} /> Livraison partout</span>
+            <span><ShieldCheck size={15} /> Service premium</span>
+          </div>
+
+          <div className="footer-contact-card footer-pro-contact">
+            <h3>Contact</h3>
+
             <a
               href="https://www.instagram.com/amal_a_gloow?igsh=eGE2Nmt5bWs0bWEx"
               target="_blank"
               rel="noreferrer"
               className="footer-contact-item"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 2h8.5C18.321 4 20 5.679 20 7.75v8.5c0 2.071-1.679 3.75-3.75 3.75h-8.5C5.679 20 4 18.321 4 16.25v-8.5C4 5.679 5.679 4 7.75 4zm4.25 2.5A5.5 5.5 0 1 0 17.5 12 5.507 5.507 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.504 3.504 0 0 1 12 8.5zm5.25-.75a1 1 0 1 0 1 1 1 1 0 0 0-1-1z"/>
-              </svg>
-
+              <Camera size={18} />
               <span>@amal_a_gloow</span>
+              <ArrowUpRight size={15} />
             </a>
 
-            {/* Email */}
             <a
               href="mailto:amal.ayoub081217aa@gmail.com"
               className="footer-contact-item"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/>
-              </svg>
-
+              <Mail size={18} />
               <span>amal.ayoub081217aa@gmail.com</span>
+              <ArrowUpRight size={15} />
             </a>
 
             <p className="footer-mini-note">
-              Livraison partout au Maroc • Commande simple • Packs beauté & glow
+              Livraison partout au Maroc • Packs beauté & glow • Service doux et rapide
             </p>
           </div>
         </div>
 
-        {/* BOTTOM */}
-        <div className="footer-bottom">
+        <div className="footer-bottom pro-footer-bottom">
           <p>
             © 2026 Gloow by{' '}
             <Link to="/admin-login" className="hidden-admin-link">
@@ -80,7 +102,6 @@ function Footer() {
             . All rights reserved.
           </p>
 
-          {/* DEV */}
           <p className="dev-credit">
             Developed by{' '}
             <a
@@ -89,18 +110,7 @@ function Footer() {
               rel="noreferrer"
               className="dev-link"
             >
-              HIPATYADEV
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                style={{ marginLeft: '6px' }}
-              >
-                <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 2h8.5C18.321 4 20 5.679 20 7.75v8.5c0 2.071-1.679 3.75-3.75 3.75h-8.5C5.679 20 4 18.321 4 16.25v-8.5C4 5.679 5.679 4 7.75 4zm4.25 2.5A5.5 5.5 0 1 0 17.5 12 5.507 5.507 0 0 0 12 6.5zm0 2A3.5 3.5 0 1 1 8.5 12 3.504 3.504 0 0 1 12 8.5zm5.25-.75a1 1 0 1 0 1 1 1 1 0 0 0-1-1z"/>
-              </svg>
+              HIPATYADEV <Camera size={15} />
             </a>
           </p>
         </div>

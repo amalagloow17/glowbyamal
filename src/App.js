@@ -13,6 +13,7 @@ import PrivateRoute from './components/PrivateRoute';
 import { useCart } from './context/CartContext';
 import ScrollToTop from './components/ScrollToTop';
 import About from './pages/About';
+import Avis from './pages/Avis';
 
 function App() {
   const { cartCount } = useCart();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/avis" element={<Avis />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route
           path="/admin"
